@@ -6,7 +6,7 @@
 /*   By: dteruya <dteruya@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/03 18:36:44 by dteruya           #+#    #+#             */
-/*   Updated: 2026/08/03 19:31:04 by dteruya          ###   ########.fr       */
+/*   Updated: 2026/08/03 20:15:11 by dteruya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,21 @@ BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& other)
     return *this;
 }
 
+void BitcoinExchange::loadDataBase(const std::string &filename)
+{
+    // abrir o data.csv
+    // ignorar a primeira linha: date,exchange_rate
+    // ler linha por linha
+    // separar a data da cotação pela vírgula
+    // guardar no map
+}
 
-
+void BitcoinExchange::processInput(const std::string& filename)
+{
+    // abrir o arquivo
+    // ignorar a primeira linha
+    // ler linha por linha
+    // validar cada linha
+    // calcular o resultado se estiver certo
+    // mostrar erro se estiver errado
+}
