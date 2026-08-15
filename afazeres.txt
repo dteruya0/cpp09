@@ -1,0 +1,442 @@
+/*
+======================================================================
+                         SORT COM VECTOR
+======================================================================
+
+Objetivo:
+
+    Receber os números em _vector
+    e ordenar usando o algoritmo Ford-Johnson / Merge-Insertion.
+
+Exemplo:
+
+    3 5 9 7 4
+
+Resultado:
+
+    3 4 5 7 9
+
+
+PASSO 1 - Verificar o tamanho
+--------------------------------
+
+    Se tiver 0 ou 1 elemento:
+        já está ordenado.
+
+    Se tiver 2 ou mais:
+        continuar.
+
+
+PASSO 2 - Formar pares
+----------------------
+
+Pegue os números dois a dois.
+
+Exemplo:
+
+    3 5 9 7 4
+
+Pares:
+
+    (3,5)
+    (9,7)
+    (4)
+
+O último 4 fica sozinho porque temos quantidade ímpar.
+
+
+PASSO 3 - Comparar cada par
+----------------------------
+
+Para cada par:
+
+    (3,5) -> menor = 3
+              maior = 5
+
+    (9,7) -> menor = 7
+              maior = 9
+
+Guarde os pares de forma que:
+
+    primeiro  = menor
+    segundo   = maior
+
+Então teremos:
+
+    (3,5)
+    (7,9)
+
+E o elemento sozinho:
+
+    4
+
+
+PASSO 4 - Criar a "main chain"
+------------------------------
+
+Agora precisamos ordenar os MAIORES elementos de cada par.
+
+No exemplo:
+
+    maiores:
+
+    5
+    9
+
+A ideia do Ford-Johnson é ordenar esses maiores
+recursivamente.
+
+Então:
+
+    [5, 9]
+
+será ordenado usando novamente o mesmo processo.
+
+
+PASSO 5 - Criar a sequência dos menores
+----------------------------------------
+
+Enquanto ordenamos os maiores, precisamos guardar
+os menores correspondentes.
+
+Exemplo:
+
+    pares:
+
+        (3,5)
+        (7,9)
+
+    maiores:
+
+        5
+        9
+
+    menores:
+
+        3
+        7
+
+Depois de ordenar os maiores:
+
+        5 9
+
+Precisamos inserir os menores na sequência.
+
+IMPORTANTE:
+
+    Não é simplesmente colocar todos no final.
+
+    O Ford-Johnson define uma ordem específica
+    de inserção baseada nos números de Jacobsthal.
+
+
+PASSO 6 - Jacobsthal
+--------------------
+
+Você precisa gerar a sequência de Jacobsthal usada
+para definir a ordem de inserção dos elementos menores.
+
+A sequência começa:
+
+    0
+    1
+    1
+    3
+    5
+    11
+    21
+    43
+    ...
+
+A fórmula é:
+
+    J(n) = J(n-1) + 2 * J(n-2)
+
+Você não precisa necessariamente criar uma classe
+para isso.
+
+Pode criar uma função auxiliar.
+
+Por exemplo:
+
+    generateJacobsthal(...)
+
+
+PASSO 7 - Inserir os menores usando busca binária
+--------------------------------------------------
+
+Agora você terá uma sequência parcialmente ordenada.
+
+Exemplo conceitual:
+
+    main chain:
+
+        5 9
+
+    menor:
+
+        3
+
+O 3 precisa ser inserido na posição correta.
+
+Como a sequência já está ordenada, use:
+
+    std::lower_bound()
+
+para descobrir onde inserir.
+
+Exemplo:
+
+    5 9
+
+inserir 3:
+
+    3 5 9
+
+
+IMPORTANTE:
+
+    O Ford-Johnson não simplesmente insere
+    os elementos em qualquer ordem.
+
+    A ordem dos elementos menores deve seguir
+    a sequência de Jacobsthal.
+
+
+PASSO 8 - Elemento ímpar
+------------------------
+
+Se o número de elementos original for ímpar:
+
+    3 5 9 7 4
+
+o 4 ficou sozinho.
+
+Depois que os pares forem processados,
+o elemento sozinho também precisa ser inserido
+na posição correta usando busca binária.
+
+
+PASSO 9 - Resultado
+-------------------
+
+No final:
+
+    _vector
+
+deve conter:
+
+    3 4 5 7 9
+
+
+======================================================================
+                         SORT COM DEQUE
+======================================================================
+
+Agora faça exatamente o mesmo algoritmo usando:
+
+    std::deque<int>
+
+em vez de:
+
+    std::vector<int>
+
+
+A lógica do Ford-Johnson NÃO muda.
+
+O que muda é a estrutura utilizada.
+
+
+PASSO 1
+
+Verificar se _deque possui 0 ou 1 elemento.
+
+
+PASSO 2
+
+Criar os pares:
+
+    (menor, maior)
+
+
+PASSO 3
+
+Ordenar recursivamente os maiores.
+
+
+PASSO 4
+
+Criar a main chain.
+
+
+PASSO 5
+
+Gerar Jacobsthal.
+
+
+PASSO 6
+
+Inserir os menores seguindo a ordem
+determinada por Jacobsthal.
+
+
+PASSO 7
+
+Usar busca binária para encontrar
+a posição de inserção.
+
+
+PASSO 8
+
+Inserir o elemento ímpar, se existir.
+
+
+PASSO 9
+
+Resultado final em _deque.
+
+
+======================================================================
+                         MUITO IMPORTANTE
+======================================================================
+
+NÃO faça:
+
+    sort(_vector.begin(), _vector.end());
+
+NÃO faça:
+
+    sort(_deque.begin(), _deque.end());
+
+Isso seria simplesmente usar o algoritmo de ordenação
+da STL e não implementaria o Ford-Johnson.
+
+
+Você precisa implementar a lógica do:
+
+    Merge-Insertion Sort
+    Ford-Johnson
+
+
+======================================================================
+                         ORGANIZAÇÃO
+======================================================================
+
+Uma organização possível seria:
+
+
+PmergeMe.hpp
+
+    class PmergeMe
+    {
+        private:
+            std::vector<int> _vector;
+            std::deque<int>  _deque;
+
+            // funções auxiliares do vector
+
+            // funções auxiliares do deque
+
+        public:
+            PmergeMe();
+            ~PmergeMe();
+            PmergeMe(const PmergeMe &other);
+
+            PmergeMe& operator=(const PmergeMe &other);
+
+            void sortVector();
+            void sortDeque();
+    };
+
+
+======================================================================
+                         ORDEM PARA IMPLEMENTAR
+======================================================================
+
+Não tente fazer tudo de uma vez.
+
+Faça nesta ordem:
+
+    1. main()
+       |
+       +--> ler argv
+       |
+       +--> validar números
+       |
+       +--> colocar números no vector
+       |
+       +--> colocar números no deque
+
+
+    2. sortVector()
+       |
+       +--> criar pares
+       |
+       +--> separar menor/maior
+       |
+       +--> ordenar maiores recursivamente
+       |
+       +--> criar main chain
+       |
+       +--> gerar Jacobsthal
+       |
+       +--> inserir menores
+       |
+       +--> inserir elemento ímpar
+       |
+       +--> resultado
+
+
+    3. sortDeque()
+       |
+       +--> repetir a mesma lógica
+       |
+       +--> usando deque
+
+
+    4. main()
+       |
+       +--> medir tempo do vector
+       |
+       +--> medir tempo do deque
+       |
+       +--> imprimir Before
+       |
+       +--> imprimir After
+       |
+       +--> imprimir os dois tempos
+
+
+======================================================================
+                         NÃO SE PREOCUPE AGORA
+======================================================================
+
+Por enquanto NÃO pense em:
+
+    - medir tempo
+    - formatar saída
+    - 3000 números
+    - otimização
+    - casos extremos
+
+Primeiro faça:
+
+    ./PmergeMe 3 5 9 7 4
+
+funcionar corretamente.
+
+Depois teste:
+
+    ./PmergeMe 8 2 5 1 9 4 7 3 6
+
+E confira se:
+
+    Before: 8 2 5 1 9 4 7 3 6
+    After:  1 2 3 4 5 6 7 8 9
+
+
+Depois disso você parte para os casos de erro.
+
+
+======================================================================
+*/
