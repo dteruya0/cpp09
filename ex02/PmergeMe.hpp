@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dteruya <dteruya@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/15 15:08:36 by dteruya           #+#    #+#             */
-/*   Updated: 2026/08/15 23:34:20 by dteruya          ###   ########.fr       */
+/*   Created: 2026/08/15 23:53:49 by dteruya           #+#    #+#             */
+/*   Updated: 2026/08/15 23:53:50 by dteruya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,44 @@
 #include <vector>
 #include <deque>
 #include <iostream>
-#include <climits>
+#include <string>
 #include <cstdlib>
+#include <climits>
+#include <algorithm>
 
 class PmergeMe
 {
 	private:
 		std::vector<int> _vector;
-		std::vector<int> _deque;
+		std::deque<int> _deque;
+
+		template <typename T>
+		void fordJohnson(T& container);
+
+		template <typename T>
+		void insertSorted(T& container, int value, typename T::iterator end);
+
+		template <typename T>
+		typename T::iterator binarySearch(T& container, int value,
+			typename T::iterator end);
+
+		template <typename T>
+		std::vector<size_t> getJacobsthal(size_t size);
 
 	public:
 		PmergeMe();
 		~PmergeMe();
-		PmergeMe(const PmergeMe &other);
-		PmergeMe& operator=(const PmergeMe &other);
+		PmergeMe(const PmergeMe& other);
+		PmergeMe& operator=(const PmergeMe& other);
 
 		void addNumber(int value);
+
 		void sortVector();
 		void sortDeque();
-		void sortMainChain(std::vector<int>& mainChain);
+
+		void printVector() const;
 };
 
-
-
+#include "PmergeMe.tpp"
 
 #endif
