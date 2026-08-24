@@ -40,33 +40,14 @@ void PmergeMe::addNumber(int value)
 	_deque.push_back(value);
 }
 
-std::vector<size_t> PmergeMe::getJacobsthal(size_t size)
-{
-	std::vector<size_t> sequence;
-
-	size_t j0 = 1;
-	size_t j1 = 3;
-
-	while (j0 < size)
-	{
-		sequence.push_back(j0);
-
-		size_t next = j1;
-		j1 = j1 + 2 * j0;
-		j0 = next;
-	}
-
-	return sequence;
-}
-
 void PmergeMe::sortVector()
 {
-	fordJohnson<std::vector<int>, std::vector<std::vector<int> > >(_vector);
+	fordJohnson(_vector);
 }
 
 void PmergeMe::sortDeque()
 {
-	fordJohnson<std::deque<int>, std::deque<std::deque<int> > >(_deque);
+	fordJohnson(_deque);
 }
 
 void PmergeMe::printVector() const
