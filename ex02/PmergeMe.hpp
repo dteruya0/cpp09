@@ -31,14 +31,12 @@ class PmergeMe
 		void fordJohnson(T& container);
 
 		template <typename T>
-		void insertSorted(T& container, int value, typename T::iterator end);
+		void insertSorted(T& container, int value, size_t end);
 
 		template <typename T>
-		typename T::iterator binarySearch(T& container, int value,
-			typename T::iterator end);
+		size_t binarySearch(T& container, int value, size_t end);
 
-		template <typename T>
-		std::vector<size_t> getJacobsthal(size_t size);
+		std::vector<size_t> getInsertionOrder(size_t size);
 
 	public:
 		PmergeMe();

@@ -62,3 +62,31 @@ void PmergeMe::printVector() const
 
 	std::cout << std::endl;
 }
+
+std::vector<size_t> PmergeMe::getInsertionOrder(size_t size)
+{
+	std::vector<size_t> order;
+
+	size_t j0 = 1;
+	size_t j1 = 3;
+	size_t previous = 0;
+
+	while (order.size() < size)
+	{
+		size_t current = j0;
+
+		if (current > size)
+			current = size;
+
+		for (size_t i = current; i > previous; --i)
+			order.push_back(i - 1);
+
+		previous = current;
+
+		size_t next = j1;
+		j1 = j1 + 2 * j0;
+		j0 = next;
+	}
+
+	return order;
+}
